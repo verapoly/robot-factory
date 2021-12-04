@@ -1,4 +1,4 @@
-package lde.tech26.robotfactory;
+package de.tech26.robotfactory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
