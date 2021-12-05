@@ -1,9 +1,8 @@
 package de.tech26.robotfactory.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
-public class DomainNotFoundException extends ResponseStatusException {
+public class DomainNotFoundException extends BusinessException {
 
 
     public DomainNotFoundException(final String reason) {

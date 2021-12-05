@@ -6,10 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Order {
 
 
-    private String id;
+    private Long id;
 
     private List<PartCatalogItem> components;
 
@@ -30,11 +32,11 @@ public class Order {
         this.components = components;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,8 +48,9 @@ public class Order {
         this.total = total;
     }
 
-    @Override
-    public String toString() {
+
+    @JsonProperty(value="summary")
+    public String getSummary() {
         return "Order{" +
             "components=" + components +
             '}';

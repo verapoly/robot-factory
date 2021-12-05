@@ -70,7 +70,7 @@ public class OrderARobotAcceptanceTest {
             .then().assertThat().statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
 
-    private Response postOrder(String body) {
+    private Response postOrder(final String body) {
         return RestAssured.given().body(body).contentType(ContentType.JSON)
             .when().port(this.getSpringBootPort()).post("/orders");
     }

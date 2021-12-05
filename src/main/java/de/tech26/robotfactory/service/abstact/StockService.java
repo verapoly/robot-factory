@@ -12,6 +12,4 @@ public interface StockService {
 
     void allocateStockItem(final String code);
 
-
-    void checkAvailability(final String code);
 }

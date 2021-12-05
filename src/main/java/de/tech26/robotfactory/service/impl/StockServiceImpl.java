@@ -2,6 +2,7 @@ package de.tech26.robotfactory.service.impl;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,18 +30,14 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void allocateStockItem(final String code) {
-        stockRepository.allocate(code);
-    }
+        StockUnit unit = stockRepository.getUnit(code).orElseThrow( () -> new DomainNotFoundException
+            (String.format("Stock Item for code %s is unavailable", code)));
 
-    @Override
-    public void checkAvailability(final String code) {
-        int count =  stockRepository.getUnit(code).orElseThrow( () -> new DomainNotFoundException
-            (String.format("Stock Item for code %s is unavailable", code))).getAvailableCount();
-
-        if(count == 0){
-            throw new UnsuffcientStockException("Stock content for code %s is insufficient");
+        if(unit.getAvailableCount() == 0){
+            throw new UnsuffcientStockException(String.format("Stock content for code %s is insufficient",code));
         }
+        unit.setAvailableCount(unit.getAvailableCount()-1);
+        stockRepository.updateUnit(unit);
     }
-
 
 }

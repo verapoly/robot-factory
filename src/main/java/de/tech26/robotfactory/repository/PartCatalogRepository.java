@@ -19,7 +19,7 @@ public class PartCatalogRepository {
     }
 
     public void createAll(List<PartCatalogItem> entities) {
-        entities.forEach(p -> partsCatalog.put(p.getCode(),p));
+        entities.forEach(p -> partsCatalog.put(p.getCode(), p));
     }
 
     public Optional<PartCatalogItem> getById(String id) {
