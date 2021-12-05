@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import de.tech26.robotfactory.service.abstact.OrderService;
 import de.tech26.robotfactory.service.abstact.PartCatalogService;
 
 @RestController
+@RequestMapping("orders")
 public class OrderController {
 
     private OrderService orderService;
@@ -36,6 +38,7 @@ public class OrderController {
 
     @PostMapping
     ResponseEntity<ResponseOrderDto> postOrder(@RequestBody @Valid RequestOrderDto requestDto) {
+
         Order order = new Order();
         // populate components
         order.setComponents(requestDto.getComponents().stream().map(
@@ -43,8 +46,8 @@ public class OrderController {
 
         //check validity, availability and create
         orderService.create(order);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body( mapper.convertValue(order, ResponseOrderDto.class));
+        ResponseOrderDto dto = mapper.convertValue(order, ResponseOrderDto.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
 

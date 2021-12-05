@@ -1,40 +1,31 @@
 package de.tech26.robotfactory.acceptance;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import de.tech26.robotfactory.domain.RobotPartType;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import kotlin.Metadata;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 @SpringBootTest(
     webEnvironment = WebEnvironment.RANDOM_PORT
 )
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 public class OrderARobotAcceptanceTest {
 
     @LocalServerPort
-    private final int springBootPort = 8090;
-
-    @Autowired
-    ApplicationContext context;
+    private int springBootPort;
 
     public int getSpringBootPort() {
-        return this.springBootPort;
+        return springBootPort;
     }
 
     @Test
@@ -42,8 +33,36 @@ public class OrderARobotAcceptanceTest {
     public void shouldOrderRobot() {
         this.postOrder("\n { \n\"components\": [\"I\",\"A\",\"D\",\"F\"]\n                    }\n                ")
             .then().assertThat().statusCode(HttpStatus.CREATED.value())
-            .body("order_id", CoreMatchers.notNullValue(), new Object[0])
+            .body("order_id", CoreMatchers.notNullValue())
             .body("total", CoreMatchers.equalTo(160.11F));
+    }
+
+    @Test
+    //$FF was: should not allow unsufficient stock
+    public void shouldNotAllowUnsufficientStock() {
+        this.postOrder("\n { \n\"components\": [\"I\",\"C\",\"D\",\"F\"]\n                    }\n                ")
+            .then().assertThat().statusCode(HttpStatus.NOT_ACCEPTABLE.value())
+            .body("message", CoreMatchers.equalTo("Stock content for code C is insufficient"));
+    }
+
+    @Test
+    //$FF was: should not allow non-existing catalog item
+    public void shouldNotAllowNotExistingDomain() {
+        this.postOrder("\n { \n\"components\": [\"I\",\"C\",\"D\",\"Z\"]\n                    }\n                ")
+            .then().assertThat().statusCode(HttpStatus.NOT_FOUND.value())
+            .body("message", CoreMatchers.equalTo("Catalog Item for code Z is not found"));
+    }
+
+    @Test
+    //    $FF was: should not allow invalid robot configuration( missing part)
+    public void shouldNotAllowInvalidRobotConfigurationWrongPartsNUmber() {
+        this.postOrder(
+                "\n                    {\n                        \"components\": [\"A\", \"C\", \"I\", \"D\", \"I\"]\n                    }\n                ")
+            .then().assertThat().statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+            .body("error", CoreMatchers.equalTo("Unprocessable Entity"))
+            .body("message", CoreMatchers.equalTo(
+                String.format("Wrong number of robot components ordered ( required = %d , actual %d )",
+                    RobotPartType.values().length,5)));
     }
 
     @Test
@@ -55,11 +74,13 @@ public class OrderARobotAcceptanceTest {
     }
 
     @Test
-    //    $FF was: should not allow invalid robot configuration
+    //    $FF was: should not allow invalid robot configuration( missing part)
     public void shouldNotAllowInvalidRobotConfiguration() {
         this.postOrder(
                 "\n                    {\n                        \"components\": [\"A\", \"C\", \"I\", \"D\"]\n                    }\n                ")
-            .then().assertThat().statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
+            .then().assertThat().statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+            .body("error", CoreMatchers.equalTo("Unprocessable Entity"))
+            .body("message", CoreMatchers.equalTo("Robot components mismatch: missing parts - [MOBILITY]"));
     }
 
     @Test

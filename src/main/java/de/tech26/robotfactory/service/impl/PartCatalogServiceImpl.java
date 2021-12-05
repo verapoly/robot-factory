@@ -3,6 +3,7 @@ package de.tech26.robotfactory.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import de.tech26.robotfactory.domain.PartCatalogItem;
@@ -12,6 +13,9 @@ import de.tech26.robotfactory.service.abstact.PartCatalogService;
 
 @Service
 public class PartCatalogServiceImpl implements PartCatalogService {
+
+    @Value("${error.msg.catalogitem.not.found}")
+    private String notFoundMsg;
 
     private PartCatalogRepository partCatalogRepository;
 
@@ -28,7 +32,7 @@ public class PartCatalogServiceImpl implements PartCatalogService {
     @Override
     public PartCatalogItem getRobotPartItem(String code) {
         return partCatalogRepository.getById(code).orElseThrow(() -> new DomainNotFoundException(
-            String.format("Catalog Item for code %s is not found ", code)
+            String.format(notFoundMsg, code)
         ));
     }
 

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import de.tech26.robotfactory.domain.Order;
@@ -19,6 +20,8 @@ import de.tech26.robotfactory.service.abstact.StockService;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    @Value("${error.msg.unprocessable.entity.missing.parts}")
+    private String msgUnprocessableEntity;
 
     private StockService stockService;
 
@@ -57,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderedParts.size() != allParts.size()) {
             allParts.removeAll(orderedParts);
             throw new InvalidRobotConfigException(
-                String.format("Robot components mismatch: missing parts - %s", allParts));
+                String.format(msgUnprocessableEntity, allParts));
         }
     }
 

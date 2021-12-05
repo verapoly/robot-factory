@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class UnsuffcientStockException extends BusinessException {
 
     public UnsuffcientStockException(final String reason) {
-        super(HttpStatus.UNPROCESSABLE_ENTITY, reason);
+        super(HttpStatus.NOT_ACCEPTABLE, reason);
     }
 }

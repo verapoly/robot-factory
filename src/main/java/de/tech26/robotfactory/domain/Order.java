@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Order {
 
-
+    @JsonProperty(required = true,value="order_id")
     private Long id;
 
     private List<PartCatalogItem> components;
@@ -48,10 +48,8 @@ public class Order {
         this.total = total;
     }
 
-
-    @JsonProperty(value="summary")
     public String getSummary() {
-        return "Order{" +
+        return "{" +
             "components=" + components +
             '}';
     }

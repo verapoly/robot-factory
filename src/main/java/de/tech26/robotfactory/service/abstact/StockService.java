@@ -7,7 +7,7 @@ import de.tech26.robotfactory.domain.StockUnit;
 public interface StockService {
 
 
-    void createStockUnit(final List<StockUnit> stockUnits);
+    void createStockUnits(final List<StockUnit> stockUnits);
 
 
     void allocateStockItem(final String code);

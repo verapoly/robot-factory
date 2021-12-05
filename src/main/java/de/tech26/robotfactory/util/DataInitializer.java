@@ -57,7 +57,7 @@ public class DataInitializer implements ApplicationRunner {
             new StockUnit("I", 92),
             new StockUnit("J", 15)
         );
-        stockService.createStockUnit(stockUnits);
+        stockService.createStockUnits(stockUnits);
 
     }
 

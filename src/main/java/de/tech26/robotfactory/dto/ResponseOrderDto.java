@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResponseOrderDto {
 
-    @JsonProperty(required = true)
+    @JsonProperty(required = true,value="order_id")
     private String id;
 
     @JsonProperty
