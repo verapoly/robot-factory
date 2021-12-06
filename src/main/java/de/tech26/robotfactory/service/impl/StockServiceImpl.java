@@ -31,12 +31,14 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void createStockUnits(final List<StockUnit> stockUnits) {
+    /* supposed to be transactional for implementation with db */
+    public synchronized void createStockUnits(final List<StockUnit> stockUnits) {
         stockRepository.createAll(stockUnits);
     }
 
     @Override
-    public void allocateStockItem(final String code) {
+    /* supposed to be transactional for implementation with db */
+    public synchronized void allocateStockItem(final String code) {
         StockUnit unit = stockRepository.getUnit(code).orElseThrow(() -> new DomainNotFoundException
             (String.format(resourceNotFoundMsg, code)));
 

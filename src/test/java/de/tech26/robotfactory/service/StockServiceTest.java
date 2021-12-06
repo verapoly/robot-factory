@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import de.tech26.robotfactory.domain.PartCatalogItem;
-import de.tech26.robotfactory.domain.RobotPartType;
 import de.tech26.robotfactory.domain.StockUnit;
 import de.tech26.robotfactory.exception.DomainNotFoundException;
 import de.tech26.robotfactory.exception.UnsuffcientStockException;
@@ -69,7 +67,7 @@ public class StockServiceTest {
             () -> stockService.allocateStockItem("C"),
             "Expected stockService.allocateStockItem to throw UnsuffcientStockException for C code, but it hasn't");
 
-        Assertions.assertEquals(thrown.getReason(),String.format(resourceUnsufficientMsg, "C"));
+        Assertions.assertEquals(thrown.getReason(), String.format(resourceUnsufficientMsg, "C"));
     }
 
     @Test

@@ -25,12 +25,14 @@ public class PartCatalogServiceImpl implements PartCatalogService {
     }
 
     @Override
-    public void createAll(List<PartCatalogItem> items) {
+    /* supposed to be transactional for implementation with db */
+    public synchronized void createAll(List<PartCatalogItem> items) {
         partCatalogRepository.createAll(items);
     }
 
     @Override
-    public PartCatalogItem getRobotPartItem(String code) {
+    /* supposed to be transactional for implementation with db */
+    public synchronized PartCatalogItem getRobotPartItem(String code) {
         return partCatalogRepository.getById(code).orElseThrow(() -> new DomainNotFoundException(
             String.format(notFoundMsg, code)
         ));

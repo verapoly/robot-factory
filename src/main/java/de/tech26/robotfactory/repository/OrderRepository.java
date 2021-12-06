@@ -4,13 +4,9 @@ package de.tech26.robotfactory.repository;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 import de.tech26.robotfactory.domain.Order;
 
 @Repository

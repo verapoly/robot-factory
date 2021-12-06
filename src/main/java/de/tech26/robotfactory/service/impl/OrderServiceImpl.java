@@ -1,7 +1,6 @@
 package de.tech26.robotfactory.service.impl;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,6 +22,9 @@ public class OrderServiceImpl implements OrderService {
     @Value("${error.msg.unprocessable.entity.missing.parts}")
     private String msgUnprocessableEntity;
 
+    @Value("${error.msg.unprocessable.entity.wrong.number.parts}")
+    private String msgUnprocessableEntityWrongPartsNumber;
+
     private StockService stockService;
 
     private OrderRepository orderRepository;
@@ -33,8 +35,10 @@ public class OrderServiceImpl implements OrderService {
         this.orderRepository = orderRepository;
     }
 
+    /* supposed to be transactional for implementation with db */
     @Override
-    public void create(final Order order) {
+    public synchronized void create(final Order order) {
+
         //check validity
         validate(order);
 
@@ -51,8 +55,8 @@ public class OrderServiceImpl implements OrderService {
     private void validate(final Order order) {
         EnumSet<RobotPartType> allParts = EnumSet.allOf(RobotPartType.class);
         if (order.getComponents().size() != allParts.size()) {
-            throw new InvalidRobotConfigException(String.format("Wrong number of robot components ordered "
-                + "( required = %d , actual %d )", allParts.size(), order.getComponents().size()));
+            throw new InvalidRobotConfigException(String.format(msgUnprocessableEntityWrongPartsNumber,
+                allParts.size(), order.getComponents().size()));
         }
         Set<RobotPartType> orderedParts = order.getComponents().stream()
             .map(PartCatalogItem::getPart).collect(Collectors.toSet());

@@ -42,7 +42,7 @@ public class OrderController {
         Order order = new Order();
         // populate components
         order.setComponents(requestDto.getComponents().stream().map(
-            p ->partCatalogService.getRobotPartItem(p)).collect(Collectors.toList()));
+            p -> partCatalogService.getRobotPartItem(p)).collect(Collectors.toList()));
 
         //check validity, availability and create
         orderService.create(order);

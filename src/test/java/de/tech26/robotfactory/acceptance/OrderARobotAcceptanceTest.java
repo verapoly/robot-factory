@@ -4,7 +4,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import de.tech26.robotfactory.domain.RobotPartType;
@@ -63,7 +62,7 @@ public class OrderARobotAcceptanceTest {
             .body("error", CoreMatchers.equalTo("Unprocessable Entity"))
             .body("message", CoreMatchers.equalTo(
                 String.format("Wrong number of robot components ordered ( required = %d , actual %d )",
-                    RobotPartType.values().length,5)));
+                    RobotPartType.values().length, 5)));
     }
 
     @Test
@@ -78,7 +77,7 @@ public class OrderARobotAcceptanceTest {
     //$FF was: should not allow invalid body
     public void shouldNotAllowInvalidBody2() {
         this.postOrder(
-            "\n                    { \n                        \"components\": []                   }\n                ")
+                "\n                    { \n                        \"components\": []                   }\n                ")
             .then().assertThat().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
