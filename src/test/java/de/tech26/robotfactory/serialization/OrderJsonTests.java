@@ -33,7 +33,7 @@ public class OrderJsonTests {
     private JacksonTester<RequestOrderDto> jsonRequestOrderDto;
 
     @Test
-    public void testSerialize() throws Exception {
+    public void testSerializeOrder() throws Exception {
         Order order = new Order(45L, List.of(
             new PartCatalogItem("B","LCD Face", RobotPartType.FACE,24.07F),
             new PartCatalogItem("D","Arms with Hands", RobotPartType.ARMS,28.94F),
@@ -48,11 +48,12 @@ public class OrderJsonTests {
         Assertions.assertThat(jsonContent).hasJsonPathArrayValue("@.components");
     }
 
+
+
     @Test
     public void testDeserialize() throws Exception {
         String content =  "\n                    {\n                        \"components\": [\"A\", \"C\", \"I\", \"D\"]\n }\n ";
-        ObjectContent<RequestOrderDto> dto = this.jsonRequestOrderDto.parse(content);
-        Assertions.assertThat(dto)
+        Assertions.assertThat(this.jsonRequestOrderDto.parse(content))
             .isEqualTo(new RequestOrderDto(List.of("A","C","I","D")));
         Assertions.assertThat(this.jsonRequestOrderDto.parseObject(content).getComponents().get(1)).isEqualTo("C");
         Assertions.assertThat(this.jsonRequestOrderDto.parseObject(content).getComponents().get(3)).isEqualTo("D");
