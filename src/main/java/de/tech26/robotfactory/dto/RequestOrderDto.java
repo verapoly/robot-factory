@@ -21,4 +21,30 @@ public class RequestOrderDto {
     public void setComponents(List<String> components) {
         this.components = components;
     }
+
+    public RequestOrderDto(List<String> components) {
+        this.components = components;
+    }
+
+    public RequestOrderDto() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RequestOrderDto)) {
+            return false;
+        }
+
+        RequestOrderDto that = (RequestOrderDto) o;
+
+        return components != null ? components.equals(that.components) : that.components == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return components != null ? components.hashCode() : 0;
+    }
 }

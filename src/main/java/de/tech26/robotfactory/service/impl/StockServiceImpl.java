@@ -24,8 +24,9 @@ public class StockServiceImpl implements StockService {
     @Value("${error.msg.not.acceptable}")
     private String resourceUnsufficientMsg;
 
+
     @Autowired
-    public StockServiceImpl(final StockRepository stockRepository) {
+    public StockServiceImpl(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
 

@@ -4,6 +4,8 @@ public class StockUnit {
 
     private String code;
 
+    private String  part;
+
     private Integer availableCount;
 
 

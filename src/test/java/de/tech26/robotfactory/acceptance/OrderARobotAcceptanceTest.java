@@ -35,6 +35,7 @@ public class OrderARobotAcceptanceTest {
             .then().assertThat().statusCode(HttpStatus.CREATED.value())
             .body("order_id", CoreMatchers.notNullValue())
             .body("total", CoreMatchers.equalTo(160.11F));
+
     }
 
     @Test
@@ -70,6 +71,14 @@ public class OrderARobotAcceptanceTest {
     public void shouldNotAllowInvalidBody() {
         this.postOrder(
                 "\n                    { \n                        \"components\": \"BENDER\"\n                    }\n                ")
+            .then().assertThat().statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
+    //$FF was: should not allow invalid body
+    public void shouldNotAllowInvalidBody2() {
+        this.postOrder(
+            "\n                    { \n                        \"components\": []                   }\n                ")
             .then().assertThat().statusCode(HttpStatus.BAD_REQUEST.value());
     }
 

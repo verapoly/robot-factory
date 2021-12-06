@@ -17,8 +17,10 @@ public class Order {
 
     private Float total;
 
-    public Order(List<PartCatalogItem> components) {
+    public Order(Long id, List<PartCatalogItem> components, Float total) {
+        this.id = id;
         this.components = components;
+        this.total = total;
     }
 
     public Order() {
