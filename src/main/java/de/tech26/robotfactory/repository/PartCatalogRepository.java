@@ -1,5 +1,6 @@
 package de.tech26.robotfactory.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,7 +19,7 @@ public class PartCatalogRepository {
         this.partsCatalog = new ConcurrentHashMap<>();
     }
 
-    public void createAll(List<PartCatalogItem> entities) {
+    public void createAll(Collection<PartCatalogItem> entities) {
         entities.forEach(p -> partsCatalog.put(p.getCode(), p));
     }
 

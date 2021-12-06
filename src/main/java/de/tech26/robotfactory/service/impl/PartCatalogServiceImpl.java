@@ -1,6 +1,6 @@
 package de.tech26.robotfactory.service.impl;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ public class PartCatalogServiceImpl implements PartCatalogService {
 
     @Override
     /* supposed to be transactional for implementation with db */
-    public synchronized void createAll(List<PartCatalogItem> items) {
+    public synchronized void createAll(Collection<PartCatalogItem> items) {
         partCatalogRepository.createAll(items);
     }
 

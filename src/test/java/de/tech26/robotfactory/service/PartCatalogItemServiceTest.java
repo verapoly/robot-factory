@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,8 +23,6 @@ import org.mockito.Mockito;
 @SpringBootTest
 public class PartCatalogItemServiceTest {
 
-    @Value("${error.msg.catalogitem.not.found}")
-    private String notFoundMsg;
 
     @MockBean
     private PartCatalogRepository partCatalogRepository;
@@ -35,7 +32,7 @@ public class PartCatalogItemServiceTest {
 
 
     @BeforeEach
-    public  void setUp() {
+    public void setUp() {
         PartCatalogItem itemExpected = new PartCatalogItem("F", "Mobility with Wheels",
             RobotPartType.MOBILITY, 30.77F);
 
@@ -51,16 +48,15 @@ public class PartCatalogItemServiceTest {
             () -> partCatalogService.getRobotPartItem("Z"),
             "Expected partCatalogService.getRobotPartItem to throw DomainNotFoundException for Z code, but it hasn't");
 
-        Assertions.assertEquals(thrown.getReason(), String.format(notFoundMsg, "Z"));
+        Assertions.assertEquals(thrown.getReason(), String.format("Catalog Item for code %s is not found", "Z"));
     }
 
     @Test
     void getFoundCatalogItem() {
 
-
         PartCatalogItem catalogItem = partCatalogService.getRobotPartItem("F");
-        Assertions.assertNotNull(catalogItem,"Item is null");
-        Assertions.assertEquals(catalogItem.getPart(),RobotPartType.MOBILITY );
+        Assertions.assertNotNull(catalogItem, "Item is null");
+        Assertions.assertEquals(catalogItem.getPart(), RobotPartType.MOBILITY);
         Assertions.assertEquals(catalogItem.getCode(), "F");
         Assertions.assertEquals(catalogItem.getName(), "Mobility with Wheels");
     }

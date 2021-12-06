@@ -1,13 +1,13 @@
 package de.tech26.robotfactory.service.abstact;
 
-import java.util.List;
+import java.util.Set;
 
-import de.tech26.robotfactory.domain.StockUnit;
+import de.tech26.robotfactory.domain.StockItem;
 
 public interface StockService {
 
 
-    void createStockUnits(final List<StockUnit> stockUnits);
+    void addStockBatch(final Set<StockItem> stockUnits);
 
 
     void allocateStockItem(final String code);

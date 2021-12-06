@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -17,17 +16,12 @@ import de.tech26.robotfactory.service.abstact.OrderService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class OrderServiceTest {
 
-    @Value("${error.msg.unprocessable.entity.missing.parts}")
-    private String msgUnprocessableEntity;
 
-    @Value("${error.msg.unprocessable.entity.wrong.number.parts}")
-    private String msgUnprocessableEntityWrongPartsNumber;
     @Autowired
     private OrderRepository orderRepository;
 
@@ -62,7 +56,8 @@ public class OrderServiceTest {
             () -> orderService.create(order),
             "Expected orderService.create to throw InvalidRobotConfigException for C code, but it hasn't");
 
-        Assertions.assertEquals(thrown.getReason(), String.format(msgUnprocessableEntity, Set.of(RobotPartType.ARMS)));
+        Assertions.assertEquals(thrown.getReason(),
+            String.format("Robot components mismatch: missing parts - %s", Set.of(RobotPartType.ARMS)));
     }
 
     @Test
@@ -81,7 +76,8 @@ public class OrderServiceTest {
             "Expected orderService.create to throw InvalidRobotConfigException for C code, but it hasn't");
 
         Assertions.assertEquals(thrown.getReason(),
-            String.format(msgUnprocessableEntityWrongPartsNumber, RobotPartType.values().length,
+            String.format("Wrong number of robot components ordered ( required = %d , actual %d )",
+                RobotPartType.values().length,
                 order.getComponents().size()));
     }
 }

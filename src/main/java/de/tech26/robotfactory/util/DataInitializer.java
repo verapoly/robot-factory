@@ -1,7 +1,9 @@
 package de.tech26.robotfactory.util;
 
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import de.tech26.robotfactory.domain.PartCatalogItem;
 import de.tech26.robotfactory.domain.RobotPartType;
-import de.tech26.robotfactory.domain.StockUnit;
+import de.tech26.robotfactory.domain.StockItem;
 import de.tech26.robotfactory.service.abstact.PartCatalogService;
 import de.tech26.robotfactory.service.abstact.StockService;
 
@@ -31,7 +33,7 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
 
-        List<PartCatalogItem> robotPartItems = List.of(
+        Set<PartCatalogItem> robotPartItems = Set.of(
             new PartCatalogItem("A", "Humanoid Face", RobotPartType.FACE, 10.28F),
             new PartCatalogItem("B", "LCD Face", RobotPartType.FACE, 24.07F),
             new PartCatalogItem("C", "Steampunk Face", RobotPartType.FACE, 13.30F),
@@ -45,19 +47,28 @@ public class DataInitializer implements ApplicationRunner {
         );
         robotPartService.createAll(robotPartItems);
 
-        List<StockUnit> stockUnits = List.of(
-            new StockUnit("A", 9),
-            new StockUnit("B", 7),
-            new StockUnit("C", 0),
-            new StockUnit("D", 1),
-            new StockUnit("E", 3),
-            new StockUnit("F", 2),
-            new StockUnit("G", 15),
-            new StockUnit("H", 7),
-            new StockUnit("I", 92),
-            new StockUnit("J", 15)
-        );
-        stockService.createStockUnits(stockUnits);
+        stockService.addStockBatch(IntStream.rangeClosed(1, 9)
+            .mapToObj(p -> new StockItem("A", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 7)
+            .mapToObj(p -> new StockItem("B", p)).collect(Collectors.toSet()));
+
+        stockService.addStockBatch(IntStream.rangeClosed(1, 1)
+            .mapToObj(p -> new StockItem("D", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 1)
+            .mapToObj(p -> new StockItem("D", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 3)
+            .mapToObj(p -> new StockItem("E", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 2)
+            .mapToObj(p -> new StockItem("F", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 15)
+            .mapToObj(p -> new StockItem("G", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 7)
+            .mapToObj(p -> new StockItem("H", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 92)
+            .mapToObj(p -> new StockItem("I", p)).collect(Collectors.toSet()));
+        stockService.addStockBatch(IntStream.rangeClosed(1, 15)
+            .mapToObj(p -> new StockItem("J", p)).collect(Collectors.toSet()));
+
 
     }
 
