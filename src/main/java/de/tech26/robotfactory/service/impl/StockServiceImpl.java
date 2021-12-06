@@ -26,7 +26,7 @@ public class StockServiceImpl implements StockService {
 
 
     @Autowired
-    public StockServiceImpl(StockRepository stockRepository) {
+    public StockServiceImpl(final StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
 

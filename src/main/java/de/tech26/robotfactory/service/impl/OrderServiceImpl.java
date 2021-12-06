@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Autowired
-    public OrderServiceImpl(StockService stockService, OrderRepository orderRepository) {
+    public OrderServiceImpl(final StockService stockService,final OrderRepository orderRepository) {
         this.stockService = stockService;
         this.orderRepository = orderRepository;
     }

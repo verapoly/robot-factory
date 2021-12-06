@@ -1,7 +1,6 @@
 package de.tech26.robotfactory.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,16 +11,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import de.tech26.robotfactory.domain.Order;
 import de.tech26.robotfactory.domain.PartCatalogItem;
 import de.tech26.robotfactory.domain.RobotPartType;
-import de.tech26.robotfactory.domain.StockUnit;
 import de.tech26.robotfactory.repository.OrderRepository;
 import de.tech26.robotfactory.service.abstact.OrderService;
+import de.tech26.robotfactory.service.abstact.StockService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
 @SpringBootTest
 public class OrderServiceTest {
 

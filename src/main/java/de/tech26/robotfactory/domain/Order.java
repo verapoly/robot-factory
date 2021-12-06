@@ -1,23 +1,19 @@
 package de.tech26.robotfactory.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Order {
 
-    @JsonProperty(required = true,value="order_id")
-    private Long id;
+    @JsonProperty(required = true, value = "order_id")
+    private Integer id;
 
     private List<PartCatalogItem> components;
 
     private Float total;
 
-    public Order(Long id, List<PartCatalogItem> components, Float total) {
+    public Order(Integer id, List<PartCatalogItem> components, Float total) {
         this.id = id;
         this.components = components;
         this.total = total;
@@ -34,11 +30,11 @@ public class Order {
         this.components = components;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -20,7 +20,7 @@ public class PartCatalogServiceImpl implements PartCatalogService {
     private PartCatalogRepository partCatalogRepository;
 
     @Autowired
-    public PartCatalogServiceImpl(PartCatalogRepository robotPartRepository) {
+    public PartCatalogServiceImpl(final PartCatalogRepository robotPartRepository) {
         this.partCatalogRepository = robotPartRepository;
     }
 

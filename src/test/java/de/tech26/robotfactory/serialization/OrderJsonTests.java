@@ -34,7 +34,7 @@ public class OrderJsonTests {
 
     @Test
     public void testSerializeOrder() throws Exception {
-        Order order = new Order(45L, List.of(
+        Order order = new Order(45, List.of(
             new PartCatalogItem("B","LCD Face", RobotPartType.FACE,24.07F),
             new PartCatalogItem("D","Arms with Hands", RobotPartType.ARMS,28.94F),
             new PartCatalogItem("F","Mobility with Wheels", RobotPartType.MOBILITY,30.7F),
